@@ -1,0 +1,21 @@
+# Do not upload full dataset
+data/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter checkpoint
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+venv/
+.env
