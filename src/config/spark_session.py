@@ -1,3 +1,6 @@
+import os
+os.environ["HADOOP_USER_NAME"] = "vudua"
+
 from pyspark.sql import SparkSession
 from src.config.cluster_config import (
     SPARK_MASTER,
