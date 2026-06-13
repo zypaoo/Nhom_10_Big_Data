@@ -15,6 +15,7 @@ spark.sql("""
     SELECT * FROM (
         SELECT Sub_Category, ROUND(SUM(CAST(Profit AS DOUBLE)), 2) AS total_profit, 'Top Low' AS group_label
         FROM superstore
+        WHERE Profit IS NOT NULL AND Sub_Category IS NOT NULL
         GROUP BY Sub_Category
         ORDER BY total_profit ASC
         LIMIT 5
