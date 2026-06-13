@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.Interaction","timestamp":1781371549879,"sparkVersion":"4.1.1","uid":"Interaction_5df0b0e16988","paramMap":{"inputCols":["Sub_Category_OHE","Discount"],"outputCol":"subcat_discount_inter"},"defaultParamMap":{"outputCol":"Interaction_5df0b0e16988__output"}}

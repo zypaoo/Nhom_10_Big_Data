@@ -1,12 +1,23 @@
-# src/config/cluster_config.py
 import os
+import socket
 
 # Nhận diện chế độ chạy (mặc định là local)
 MODE = os.environ.get("RUN_MODE", "local").lower()
 
+def get_local_ip():
+    try:
+        # Kết nối tới IP Master của Radmin VPN để tự động phát hiện card mạng VPN
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("26.97.56.101", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return "127.0.0.1"
+
 if MODE == "cluster":
     SPARK_MASTER = os.environ.get("SPARK_MASTER", "spark://master:7077")
-    DRIVER_IP = os.environ.get("DRIVER_IP", "worker1")
+    DRIVER_IP = os.environ.get("DRIVER_IP", get_local_ip())
     KAFKA_BOOTSTRAP_SERVER = os.environ.get("KAFKA_BOOTSTRAP_SERVER", "master:9092")
     CHECKPOINT_PATH = os.environ.get("CHECKPOINT_PATH", "hdfs://master:9000/checkpoints/profit_stream")
     PREDICTIONS_OUTPUT_PATH = os.environ.get("PREDICTIONS_OUTPUT_PATH", "hdfs://master:9000/bigdata/realtime/profit_predictions/")
