@@ -2,7 +2,7 @@
 
 SPARK_MASTER = "spark://master:7077"
 
-DRIVER_IP = "worker2"
+DRIVER_IP = "worker1"
 
 EXECUTOR_MEMORY = "3g"
 EXECUTOR_CORES = 3

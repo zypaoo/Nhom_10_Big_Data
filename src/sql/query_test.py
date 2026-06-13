@@ -1,9 +1,16 @@
-from src.ingestion.read_hdfs import read_superstore
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
-df = read_superstore()
+from src.ingestion.read_hdfs import spark
 
-spark = df.sparkSession
+df = spark.table("superstore")
+print("1. CẤU TRÚC SCHEMA DỮ LIỆU HDFS")
+df.printSchema()
+print("\n2. HIỂN THỊ MẪU 5 DÒNG DỮ LIỆU")
+df.show(5, truncate=True)
+print("\n3. TỔNG SỐ BẢN GHI ĐỌC ĐƯỢC TỪ HDFS")
+total_records = df.count()
+print(f"Tổng số bản ghi: {total_records} dòng")
 
-print("Partitions:", df.rdd.getNumPartitions())
-print("Default Parallelism:", spark.sparkContext.defaultParallelism)
-print("Master:", spark.sparkContext.master)
+
+
