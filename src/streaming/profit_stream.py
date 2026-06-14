@@ -129,7 +129,7 @@ def main():
         
     try:
         print(f"Loading Customer Profile Snapshot from: {snapshot_path}")
-        customer_snapshot_df = spark.read.parquet(snapshot_path)
+        customer_snapshot_df = spark.read.parquet(snapshot_path).cache()
         print(f"Loaded snapshot with {customer_snapshot_df.count()} customer profiles.")
     except Exception as e:
         print(f"Error loading customer snapshot: {e}")
