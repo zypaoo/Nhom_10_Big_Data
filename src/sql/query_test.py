@@ -1,7 +1,7 @@
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-from src.ingestion.read_hdfs import spark
+from src.streaming.ingestion.read_hdfs import spark
 
 df = spark.table("superstore")
 print("1. CẤU TRÚC SCHEMA DỮ LIỆU HDFS")

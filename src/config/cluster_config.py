@@ -1,8 +1,20 @@
 import os
 import socket
+import sys
 
-# Nhận diện chế độ chạy (mặc định là local)
-MODE = os.environ.get("RUN_MODE", "local").lower()
+# Tự động nhận diện nếu tiến trình đang chạy là tính năng realtime streaming
+cmd_line = " ".join(sys.argv).lower()
+is_streaming = any(
+    x in cmd_line 
+    for x in ["streaming", "profit_stream", "dashboard", "app.py", "order_producer", "run_all"]
+)
+
+# Chỉ tính năng streaming mới hỗ trợ chuyển đổi chế độ qua RUN_MODE env var.
+# Mặc định tất cả các tác vụ khác (ML notebooks, SQL queries) luôn là cluster mode.
+if is_streaming:
+    MODE = os.environ.get("RUN_MODE", "cluster").lower()
+else:
+    MODE = "cluster"
 
 def get_local_ip():
     try:
@@ -32,9 +44,10 @@ else:
     CHECKPOINT_PATH = os.environ.get("CHECKPOINT_PATH", "src/streaming/checkpoints/profit_stream")
     PREDICTIONS_OUTPUT_PATH = os.environ.get("PREDICTIONS_OUTPUT_PATH", "src/streaming/realtime_predictions_parquet")
     
-    EXECUTOR_MEMORY = os.environ.get("EXECUTOR_MEMORY", "1g")
-    EXECUTOR_CORES = int(os.environ.get("EXECUTOR_CORES", "1"))
-    MAX_CORES = int(os.environ.get("MAX_CORES", "4"))
+    # Chế độ local: Sử dụng tối đa tài nguyên máy local (không giới hạn) để chạy mượt
+    EXECUTOR_MEMORY = os.environ.get("EXECUTOR_MEMORY", "8g")
+    EXECUTOR_CORES = int(os.environ.get("EXECUTOR_CORES", "8"))
+    MAX_CORES = int(os.environ.get("MAX_CORES", "16"))
 
 # Partition Config
 DEFAULT_SHUFFLE_PARTITIONS = int(os.environ.get("DEFAULT_SHUFFLE_PARTITIONS", "8"))

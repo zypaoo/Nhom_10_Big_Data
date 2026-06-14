@@ -1,4 +1,4 @@
-from src.ingestion.read_hdfs import spark
+from src.streaming.ingestion.read_hdfs import spark
 
 spark.sql("""
 WITH order_level AS (
